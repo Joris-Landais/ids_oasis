@@ -14,8 +14,10 @@ school = School(all_reservations=all_reservations)
 
 
 # Sending their own schedule to each room
-
-
+# Allumer les Raspberry à distance ??
+for room in school.rooms:
+    to_send = ...
+    # sending
 
 
 
@@ -38,10 +40,14 @@ school.rooms[room_id].cancel_reservation(data_cancel_reservation)
 #get info raspberry (room + criteria)
 from_room = ...
 criteria = ...
-room_to, itinerary = school.search_room(from_room, criteria)
+now = ...
+room_to, itinerary = school.search_room(now, from_room, criteria)
 #send to raspebrry available room + itinerary
 
 
 
 
 #CLOSING at the end of the day
+
+
+# Éteindre les Raspberry ?
