@@ -11,26 +11,26 @@ class Room():
     async def connect(self):
         """Connection on the network
         """
-        self._ws = await websocket_connect(self._ws_url)#, on_message_callback=self.on_message)
+        self._ws = await websocket_connect(self._ws_url, on_message_callback=self.on_message)
         
     def on_message(self, msg):
         """To do when the server sends a message
         """
-        pass
+        pass # TODO
     
-    async def update_room_occupied(self):
+    async def update_room_occupied(self, duration):
         """The Raspberry asks for the time schedule
         """
         request_type = "occupied"
-        data = ""
+        data = [self.room_id, duration]
         request = json.dumps([request_type, data]).encode()
         self._ws.write_message(request)
 
-    async def aks_free_room(self):
+    async def aks_free_room(self, criteria:dict):
         """The user asks for a room
         """
         request_type = "ask_room"
-        data = ""
+        data = [self.room_id, criteria]
         request = json.dumps([request_type, data]).encode()
         self._ws.write_message(request)
 
