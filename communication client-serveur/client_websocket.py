@@ -1,31 +1,49 @@
 from tornado.websocket import websocket_connect
 import asyncio
 import time
+import json
 
-class Client():
+class Room():
     def __init__(self, ws_url, room_id):
         self.room_id = room_id
         self._ws_url = ws_url
     
     async def connect(self):
-        self._ws = await websocket_connect(self._ws_url, on_message_callback=self.on_message)
+        """Connection on the network
+        """
+        self._ws = await websocket_connect(self._ws_url)#, on_message_callback=self.on_message)
         
     def on_message(self, msg):
-        print(f"[{self.room_id} terminal] {msg}")
+        """To do when the server sends a message
+        """
+        pass
     
-    async def write_message(self, msg):
-        await self._ws.write_message(f"[{self.room_id}]: {msg}")
+    async def update_room_occupied(self):
+        """The Raspberry asks for the time schedule
+        """
+        request_type = "occupied"
+        data = ""
+        request = json.dumps([request_type, data]).encode()
+        self._ws.write_message(request)
 
-joris = Client("ws://localhost:3080/ws", "joris")
-phil = Client("ws://localhost:3080/ws", "phil")
+    async def aks_free_room(self):
+        """The user asks for a room
+        """
+        request_type = "ask_room"
+        data = ""
+        request = json.dumps([request_type, data]).encode()
+        self._ws.write_message(request)
+
+# Declare the room
+joris = Room("ws://localhost:3080/ws", "joris")
+
 
 async def main():
+    """Actions of the room
+    """
     await joris.connect()
-    time.sleep(2)
-    await phil.connect()
-    time.sleep(2)
-    await joris.write_message("coucou")
-    time.sleep(2)
-    await phil.write_message("coucou joris")
+    time.sleep(5)
+    await joris.ask_reservations()
+
 
 asyncio.run(main())
