@@ -8,13 +8,20 @@ port = 3080
 
 class EchoWebSocketHandler(WebSocketHandler):
     def open(self):
-        print("hello")
+        print("nouvelle connection")
+        self.first_msg = True # To get room_id
 
         
     def on_message(self, message):
-        print("message reçu")
-        print(message)
-        self.write_message("hello lucie")
+        if self.first_msg:
+            print("premier message reçu")
+            print(message)
+            self.room_id = message # Saving room_id
+            self.first_msg = False
+        else:
+            print("autre message reçu")
+            print(message)
+            self.write_message("hello lucie3")
 
 
     def on_close(self):

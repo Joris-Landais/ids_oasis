@@ -6,6 +6,8 @@ server_port = 3012
 
 class HelloTCPHandler(socketserver.BaseRequestHandler):
     def handle(self):
+
+    
         BUFFER = 1024
         #request_type, data = self.request.recv(BUFFER).decode().split(',')
         #if request_type == "reservations":

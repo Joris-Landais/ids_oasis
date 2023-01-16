@@ -4,11 +4,16 @@ from tornado.ioloop import IOLoop
 import json
 from ..serveur.backend import School
 
+ip_server = "172.16.16.180"
+port = 3080
+
+clients= {}
+
 class EchoWebSocketHandler(WebSocketHandler):
     def open(self):
         """To do when a client connects on the network
         """
-        pass
+        self.first_msg = False
 
         
     def on_message(self, message):
