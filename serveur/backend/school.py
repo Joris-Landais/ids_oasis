@@ -1,16 +1,13 @@
 from .room import Room
+from ...suggestion_salle.room2go import room2go
 
 class School:
-    def __init__(self, all_reservations:list[tuple(str, list[dict])]):
-        self.rooms = {}
-        for room in all_reservations:
-            self.rooms[room[0]] = Room(
-                room_id=room[0],
-                week_reservations=room[1]
-            )
+    def __init__(self):
+        self.rooms:dict[Room] = {}
     
-    def search_room(self, now, from_room:str, criteria:dict):
-
-        itinerary = ...
-        room_to = ...
-        return room_to, itinerary
+    def new_room(self, room_id, client):
+        self.rooms[room_id] = Room(room_id, client)
+    
+    def search_room(self, now, data):
+        room_to_go = room2go(now, data)
+        return room_to_go

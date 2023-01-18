@@ -1,40 +1,50 @@
 from backend import School
+from backend.scrap_oasis import update
 
+from tornado.websocket import WebSocketHandler
+from tornado.web import Application
+from tornado.ioloop import IOLoop
+import json
 
+ip_server = "172.16.16.180"
+port = 3080
 
 #INITIALIZATION
 
-# Getting reservation from OASIS
-all_reservations = ...
+# Empty school
+school = School()
 
+class RoomSocketHandler(WebSocketHandler):
+    def open(self):
+        self.first_msg = True
+    
+    def on_message(self, message):
+        if self.first_msg:
+            # Handle new connection
+            self.room_id = message
+            self.first_msg = False
+            school.new_room(self.room_id, self)
+        else:
+            request_type = message["requête"]
+            now = ... # TODO
 
-# Initializing all the rooms
-school = School(all_reservations=all_reservations)
+            if request_type == "occupied":
+                # PAS CLAIR
+                duration = message # TODO
+                school.rooms[self.room_id].new_occupation(now, duration)
 
-
-
-# Sending their own schedule to each room
-# Allumer les Raspberry à distance ??
-for room in school.rooms:
-    to_send = ...
-    # sending
+            elif request_type == "recherche de salle":
+                room_to_go = school.search_room(now, self.room_id, message) #TODO
+                self.write_message(room_to_go)
 
 
 
 #LIVE
 
-# New reservation
-data_new_reservation = ...
-room_id = ...
-school.rooms[room_id].new_reservation(data_new_reservation)
-# + envoi raspberry
-
-# Cancel reservation
-data_cancel_reservation = ...
-room_id = ...
-school.rooms[room_id].cancel_reservation(data_cancel_reservation)
-#+envoi raspberry
-
+# Updating and sending their own schedule to each room
+update(school)
+for room in school.rooms:
+    room.send_reservations()
 
 # Request available room
 #get info raspberry (room + criteria)

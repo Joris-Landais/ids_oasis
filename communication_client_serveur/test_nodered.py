@@ -26,7 +26,8 @@ class EchoWebSocketHandler(WebSocketHandler):
         else:
             print("autre message reçu")
             print(message)
-            self.write_message({'title': 'MS GAZ 2022-2023', 'from_': '09:00', 'to': '12:30'})
+            self.write_message(json.dumps([{'title': 'MS lucie GAZ 2022-2023', 'from_': '09:00', 'to': '12:30'},
+            {'title': 'Réunion', 'from_': '15:00', 'to': '17;00'}]))
 
 
     def on_close(self):

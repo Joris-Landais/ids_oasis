@@ -1,21 +1,17 @@
 from operator import itemgetter
+import json
 
 class Room:
-    def __init__(self, room_id:str, week_reservations:list[dict]) :
+    def __init__(self, room_id, client) :
         self.room_id = room_id
-        self.reservations = sorted(week_reservations, key=itemgetter('day', 'from'))
+        self.client = client
         self.occupation = None
 
-    def new_reservation(self, data_sent:dict):
-        self.reservations.append(data_sent)
-        self.reservations = sorted(self.reservations, key=itemgetter('day', 'from'))
+    def update_reservations(self, data:list[dict]):
+        self.reservations = data
     
     def new_occupation(self, now, duration:int):
         self.occupation = [now, now + duration]
-
-    def cancel_reservation(self, data_sent:dict):
-        # TODO
-        self.reservations # TODO
     
     def get_next_available(self):
         try:
@@ -29,3 +25,6 @@ class Room:
     
     def is_occupied(self, now, duration):
         return 
+    
+    def send_reservations(self):
+        self.client.write_message(json.dumps(self.reservations))

@@ -2,7 +2,7 @@ from tornado.websocket import WebSocketHandler
 from tornado.web import Application
 from tornado.ioloop import IOLoop
 import json
-from ..serveur.backend import School
+from serveur.backend import School
 
 ip_server = "172.16.16.180"
 port = 3080
