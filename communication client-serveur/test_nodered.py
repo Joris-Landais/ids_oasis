@@ -1,10 +1,14 @@
 from tornado.websocket import WebSocketHandler
 from tornado.web import Application
 from tornado.ioloop import IOLoop
+from time import sleep
+import json
 
 ip_server = "172.16.16.180"
+#ip_server = "127.0.0.1"
 port = 3080
 
+clients = []
 
 class EchoWebSocketHandler(WebSocketHandler):
     def open(self):
@@ -18,10 +22,11 @@ class EchoWebSocketHandler(WebSocketHandler):
             print(message)
             self.room_id = message # Saving room_id
             self.first_msg = False
+            clients.append((self.room_id, self))
         else:
             print("autre message reçu")
             print(message)
-            self.write_message("hello lucie3")
+            self.write_message({'title': 'MS GAZ 2022-2023', 'from_': '09:00', 'to': '12:30'})
 
 
     def on_close(self):

@@ -13,10 +13,11 @@ class Room():
         """
         self._ws = await websocket_connect(self._ws_url, on_message_callback=self.on_message)
         
-    def on_message(self, msg):
+    async def on_message(self, msg):
         """To do when the server sends a message
         """
-        pass # TODO
+        print("igotit")
+        await print(msg)
     
     async def update_room_occupied(self, duration):
         """The Raspberry asks for the time schedule
@@ -43,7 +44,11 @@ async def main():
     """
     await joris.connect()
     time.sleep(5)
-    await joris.ask_reservations()
+    await joris._ws.write_message("Hello bitch")
+    time.sleep(5)
+    await joris._ws.write_message("rebonjour")
+    #await joris.ask_reservations()
+    time.sleep(10)
 
 
 asyncio.run(main())

@@ -3,7 +3,7 @@ import json
 import time
 
 server_ip = "127.0.0.1"
-server_port = 3012
+server_port = 3080
 
 params = (server_ip, server_port)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,7 +29,10 @@ def ask_reservations():
 #    print(room)
 #    #print(itinerary)
 
-ask_reservations()
-time.sleep(5)
-ask_reservations()
 #ask_reservations()
+#time.sleep(5)
+#ask_reservations()
+#ask_reservations()
+
+while True:
+    pass
