@@ -1,0 +1,6 @@
+bs4==0.0.1
+requests @ file:///tmp/build/80754af9/requests_1608241421344/work
+selenium==4.7.2
+websocket-client==1.2.1
+websockets==10.3
+
