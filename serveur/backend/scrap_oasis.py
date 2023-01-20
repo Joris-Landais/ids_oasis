@@ -1,11 +1,12 @@
 import bs4 
 from selenium import webdriver
 from time import sleep
+from .school import School
 
 url = 'https://oasis.mines-paristech.fr/prod/bo/?targetProject=oasis_ensmp&public#codepage=ROOM_MANAGER_VIEW&view=timelineDay'
 
 
-def update(school):
+def scrap(school:School):
     browser = webdriver.Firefox()
     browser.get(url)
 

@@ -5,12 +5,16 @@
 from roomDispo import dispo
 import json
 
-def room2go(now, data) :
+def room2go(school, now, data) :
     from_room = data["id"]
+    tabb = data["tabb"]
+    tabn = data["tabn"]
+    videop = data["videop"]
+    dur = data["dur"]
     with open("priorityLists.txt", 'r') as file:
         priorityList = json.loads(file.read())[from_room]
     room_id = ''
     for room_id in priorityList :
-        if dispo[room_id] == 'disponible' : # TODO : change the condition
+        if school.rooms[room_id].is_available(now, dur):
             return room_id
     return room_id
