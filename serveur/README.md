@@ -15,7 +15,7 @@ A chaque nouvelle connection, le client (une salle) est stocké dans une classe 
 Le premier client à se connecter est identifié comme tel et sera chargé, périodiquement, d'actualiser les données de disponibilité (en scrappant Oasis) et en les envoyant à tous les clients connectés au serveur.
 
 Par ailleurs, le serveur gère deux types de requêtes envoyées par les clients :
-- la demande d'une salle libre selon un certain nombre de critères (d'après le code développé dans [📁 `suggestion_salle`](../suggestion_salle)), et l'envoi de la salle choisie au client
+- la demande d'une salle libre selon un certain nombre de critères (géré par la classe `School`), et l'envoi de la salle choisie au client
 - le fait d'indiquer une salle effectivement occupée (lorsqu'une personne rentre dans une salle, elle indique sur l'écran qu'elle est effectivement présente et l'information remonte au serveur)
 
 
@@ -25,3 +25,10 @@ Le [📁 `backend`](backend) comporte 3 fichiers 🐍 `python` qui gèrent les m
 - [🐍 `room.py`](backend/room.py) qui définit une salle (classe `Room`), stocke la connection WebSocket, envoie les updates des réservations et tient le registre des disponibilités de la salle.
 - [🐍 `school.py`](backend/school.py) qui regroupe toutes les salles (dans la classe `School`), gère le scrapping pour récupérer les données sur Oasis et gère le calcul des salles disponibles, proches
 - [🐍 `scrap_oasis.py`](backend/scrap_oasis.py) qui définit la fonction `scrap` chargée de récupérer, via scrapping, les données de l'emploi du temps du jour. Cette fonction actualise la classe `School` qui actualise les données des `Room`.
+
+
+## Fonctionnement du [📁 `room_priorities`](backend/room_priorities)
+
+Le [📁 `room_priorities`](backend/room_priorities) comporte 2 fichiers 🐍 `python` :
+- [🐍 `roomDict.py`](backend/room_priorities/roomDict.py) qui stocke les informations inhérentes aux salles (capacité, équipement etc.). Le dictionnaire est utilisé dans [🐍 `roomPrioriry.py`](backend/room_priorities/roomPriority.py)
+- [🐍 `roomPrioriry.py`](backend/room_priorities/roomPriority.py) qui regroupe, pour chaque salle, la liste des autres salles, triées par proximité (priorité)

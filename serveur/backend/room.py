@@ -15,16 +15,23 @@ class Room:
     
     def get_next_available(self):
         try:
-            return (self.reservations[0]['day'], self.reservations[0]['from'])
+            return self.reservations[0]['from']
         except:
             return None
     
-    def is_available(self, now, duration):
+    def is_booked(self, now, duration):
         next_available = self.get_next_available()
-        return ((next_available['from'] - now[1] - duration) >= 0) + (next_available['day'] != now[0])
+        return ((next_available - now[1] - duration) >= 0)
     
     def is_occupied(self, now, duration):
-        return 
+        if self.occupation == None:
+            return False
+        else:
+            return (now < self.occupation[1]) | (now + duration > self.occupation[0])
+    
+    def is_available(self, now, duration):
+        # Par défaut, on ne propose pas de salle à moins de 10 minutes avant la prochaine réservation
+        return ~(self.is_booked(now, duration) | self.is_occupied(now, duration))
     
     def send_reservations(self):
-        self.client.write_message(json.dumps(self.reservations))
+        self.client.write_message(json.dumps({"requête": "edt", "réservations": self.reservations}))

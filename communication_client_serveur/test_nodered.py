@@ -1,6 +1,6 @@
 from tornado.websocket import WebSocketHandler
 from tornado.web import Application
-from tornado.ioloop import IOLoop
+from tornado.ioloop import IOLoop, PeriodicCallback
 from time import sleep
 import json
 
@@ -10,10 +10,21 @@ port = 3080
 
 clients = []
 
+first_client = True
+
 class EchoWebSocketHandler(WebSocketHandler):
     def open(self):
+        global first_client
         print("nouvelle connection")
         self.first_msg = True # To get room_id
+        if first_client:
+            print("bite")
+            first_client = False
+            self.callback = PeriodicCallback(self.hello, 10000)
+            self.callback.start()
+        
+    def hello(self):
+        self.write_message("coucou c moi moumou la reine des mouettes")
 
         
     def on_message(self, message):
@@ -34,6 +45,10 @@ class EchoWebSocketHandler(WebSocketHandler):
         """To do when a client leaves the network
         """
         print("bye-bye")
+        try:
+            self.callback.close()
+        except:
+            pass
 
 
 if __name__ == '__main__':

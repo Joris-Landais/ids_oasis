@@ -28,7 +28,8 @@ class RoomSocketHandler(WebSocketHandler):
         if first_client:
             # The first client handles refreshing and sending, periodically
             first_client = False
-            self.callback = PeriodicCallback(self.refresh, refresh_time * 60000)
+            self.callback = PeriodicCallback(self.send_updates, refresh_time * 60000)
+            self.callback.start()
     
     def send_updates(self):
         """Sending Oasis updates to the client, every refresh_time minutes.
@@ -47,11 +48,13 @@ class RoomSocketHandler(WebSocketHandler):
             request_type = message["requête"]
             now = ... # TODO
 
-            if request_type == "occupied":
-                # PAS CLAIR
-                duration = message # TODO
+            if request_type == "prise de salle":
+                duration = message["durée"]
                 school.rooms[self.room_id].new_occupation(now, duration)
 
             elif request_type == "recherche de salle":
-                room_to_go = school.search_room(now, self.room_id, message) #TODO
-                self.write_message(room_to_go)
+                room_to_go = school.search_room(now, self.room_id, message)
+                self.write_message(json.dumps({"requête": "salle", "id": room_to_go}))
+    
+    def on_close(self):
+        self.callback.stop()
