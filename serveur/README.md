@@ -26,7 +26,7 @@ Le [📁 `backend`](backend) comporte 3 fichiers 🐍 `python` qui gèrent les m
 - [🐍 `school.py`](backend/school.py) qui regroupe toutes les salles (dans la classe `School`), gère le scrapping pour récupérer les données sur Oasis et gère le calcul des salles disponibles, proches
 - [🐍 `scrap_oasis.py`](backend/scrap_oasis.py) qui définit la fonction `scrap` chargée de récupérer, via scrapping, les données de l'emploi du temps du jour. Cette fonction actualise la classe `School` qui actualise les données des `Room`. Il faut récupérer le webdriver de chromium avec la commande :
 
-        sudo apt-get install chromium-webdriver
+        sudo apt-get install chromium-chromedriver
 
 
 ## Fonctionnement du [📁 `room_priorities`](backend/room_priorities)

@@ -8,7 +8,7 @@ url = 'https://oasis.mines-paristech.fr/prod/bo/?targetProject=oasis_ensmp&publi
 
 def scrap(school:School):
     browser = webdriver.Firefox()
-    #browser = webdriver.Chrome() #chromium webdriver to be installed on the server with the command "sudo apt-get install chromium-webdriver"
+    #browser = webdriver.Chrome() #chromium webdriver to be installed on the server with the command "sudo apt-get install chromium-chromedriver"
     browser.get(url)
 
     sleep(20)
