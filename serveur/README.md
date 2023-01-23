@@ -34,3 +34,16 @@ Le [📁 `backend`](backend) comporte 3 fichiers 🐍 `python` qui gèrent les m
 Le [📁 `room_priorities`](backend/room_priorities) comporte 2 fichiers 🐍 `python` :
 - [🐍 `roomDict.py`](backend/room_priorities/roomDict.py) qui stocke les informations inhérentes aux salles (capacité, équipement etc.). Le dictionnaire est utilisé dans [🐍 `roomPrioriry.py`](backend/room_priorities/roomPriority.py)
 - [🐍 `roomPrioriry.py`](backend/room_priorities/roomPriority.py) qui regroupe, pour chaque salle, la liste des autres salles, triées par proximité (priorité)
+
+# À FAIRE en installant le serveur :
+
+- Télécharger le dossier [📁 `serveur`](../serveur/)
+- Modifier l'adresse-ip locale (et le port) dans [🐍 `app.py`](app.py)
+- Connecter le serveur au réseau (a priori MOVIE)
+- Installer le webdriver :
+        sudo apt-get install chromium-chromedriver
+
+**Paramètres modifiables**
+- Temps de rafraichissement des données (`refresh_time`dans [🐍 `app.py`](app.py))
+- Maintenir à jour l'url d'Oasis (dans [🐍 `scrap_oasis.py`](backend/scrap_oasis.py))
+- Maintenir à jour l'inventaire des salles (dans [🐍 `roomDict.py`](backend/room_priorities/roomDict.py.py))
