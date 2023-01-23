@@ -24,7 +24,9 @@ Par ailleurs, le serveur gère deux types de requêtes envoyées par les clients
 Le [📁 `backend`](backend) comporte 3 fichiers 🐍 `python` qui gèrent les méthodes appliquées dans [🐍 `app.py`](app.py) :
 - [🐍 `room.py`](backend/room.py) qui définit une salle (classe `Room`), stocke la connection WebSocket, envoie les updates des réservations et tient le registre des disponibilités de la salle.
 - [🐍 `school.py`](backend/school.py) qui regroupe toutes les salles (dans la classe `School`), gère le scrapping pour récupérer les données sur Oasis et gère le calcul des salles disponibles, proches
-- [🐍 `scrap_oasis.py`](backend/scrap_oasis.py) qui définit la fonction `scrap` chargée de récupérer, via scrapping, les données de l'emploi du temps du jour. Cette fonction actualise la classe `School` qui actualise les données des `Room`.
+- [🐍 `scrap_oasis.py`](backend/scrap_oasis.py) qui définit la fonction `scrap` chargée de récupérer, via scrapping, les données de l'emploi du temps du jour. Cette fonction actualise la classe `School` qui actualise les données des `Room`. Il faut récupérer le webdriver de chromium avec la commande :
+
+        sudo apt-get install chromium-webdriver
 
 
 ## Fonctionnement du [📁 `room_priorities`](backend/room_priorities)

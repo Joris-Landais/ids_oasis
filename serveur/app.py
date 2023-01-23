@@ -1,5 +1,4 @@
-from backend import School, Room
-from backend.scrap_oasis import update
+from backend import School
 
 from tornado.websocket import WebSocketHandler
 from tornado.web import Application
@@ -24,12 +23,14 @@ class RoomSocketHandler(WebSocketHandler):
     def open(self):
         global first_client
         self.first_msg = True
-        self.room_id = None #Waiting for the room to send its id
+        self.room_id = None #waiting for the room to send its id
+        self.callback_stop = False #only the dirst client to connect will have to end the callback
         if first_client:
             # The first client handles refreshing and sending, periodically
             first_client = False
             self.callback = PeriodicCallback(self.send_updates, refresh_time * 60000)
             self.callback.start()
+            self.callback_stop = True
     
     def send_updates(self):
         """Sending Oasis updates to the client, every refresh_time minutes.
@@ -57,4 +58,11 @@ class RoomSocketHandler(WebSocketHandler):
                 self.write_message(json.dumps({"requête": "salle", "id": room_to_go}))
     
     def on_close(self):
-        self.callback.stop()
+        if self.callback_stop:
+            self.callback.stop() #TODO : problème, si le premier client se déconnecte dans la journée, beug de tous les autres, plus mis à jour
+
+
+if __name__ == '__main__':
+    app = Application([(r'/ws', RoomSocketHandler)])
+    app.listen(port, ip_server)
+    IOLoop.instance().start()

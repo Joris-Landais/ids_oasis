@@ -12,6 +12,8 @@ Le dépôt git contient le code qui gère l'interface Oasis/serveur et serveur/c
 
 Le serveur est un serveur Webscoket, connecté du côté du client via NodeRed. On ne développe en 🐍`python` que la partie serveur.
 
+Par ailleurs, les intstallations à réaliser par les clients (les RaspberryPi présentes devant chaque salle) ont été regroupées sur le dépôt.
+
 
 ## Le dépôt git
 
@@ -24,6 +26,8 @@ Ce dépôt git contient principalement les éléments :
     - [🐍 `school.py`](serveur/backend/school.py) : gère la classe `School` qui regroupe les classes `Room` et déclenche le scrapping d'Oasis
     - [🐍 `room.py`](serveur/backend/room.py) : gère la classe `Room` qui contient l'emploi du temps de chaque salle et contrôle l'envoi des informations aux clients
     - [🐍 `scrap_oasis.py`](serveur/backend/scrap_oasis.py) : code support du scrapping d'Oasis
+  - [📁 `installations_clients`](installations_clients) : executables nécessaires à l'installation des différents éléments (librairies, NodeRed pour le front-end etc.) sur les RaspberryPi connectées aux écrans.
+
 
 Par ailleurs, les dossiers [📁 `scrapping`](scrapping) et [📁 `communication_client_serveur`](communication_client_serveur) contienent des brouillons, des fichiers de code qui ont servi à différents tests lors du développement. Ils n'ont pas vocation à rester dans le dépôt.
 

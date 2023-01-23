@@ -17,7 +17,7 @@ class School:
         tabb = data["tabb"]
         tabn = data["tabn"]
         videop = data["videop"]
-        dur = data["dur"] if data["dur"] != "" else 10
+        dur = data["dur"] if data["dur"] != "" else 10 # TODO : add criteria
         with open("room_priorities/priorityLists.txt", 'r') as file:
             priorityList = json.loads(file.read())[from_room]
         for room2go_id in priorityList :
