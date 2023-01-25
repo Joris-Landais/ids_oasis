@@ -8,7 +8,7 @@ url = 'https://oasis.mines-paristech.fr/prod/bo/?targetProject=oasis_ensmp&publi
 
 def scrap(school:School):
     browser = webdriver.Firefox()
-    #browser = webdriver.Chrome() #chromium webdriver to be installed on the server with the command "sudo apt-get install chromium-chromedriver"
+    #browser = webdriver.Chrome() #chromium webdriver à installer sur le serveur, avec la commande "sudo apt-get install chromium-chromedriver"
     browser.get(url)
 
     sleep(20)
@@ -17,7 +17,7 @@ def scrap(school:School):
     oasis = bs4.BeautifulSoup(res,'html.parser')  
     browser.close()
 
-    # Formate the data
+    # Mise en forme des données
 
     table = oasis.find_all('table', class_="table-bordered")[4]
     rooms = table.find_all('tr')

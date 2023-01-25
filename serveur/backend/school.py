@@ -5,10 +5,10 @@ from .room_priorities.roomDict import rooms
 
 class School:
     def __init__(self):
-        self.rooms:dict[str, Room] = {}
+        self.rooms:dict[str: [Room, bool]] = {}
     
     def new_room(self, room_id, client):
-        self.rooms[room_id] = Room(room_id, client)
+        self.rooms[room_id] = [Room(room_id, client), True]
     
     def search_room(self, now, data):
         """Retourne la salle la plus proche, libre, selon certains critères optionnels.
@@ -26,5 +26,5 @@ class School:
         return ""
     
     def update(self):
-        """Scraps Oasis and update all rooms"""
+        """Scrap Oasis et update les salles"""
         scrap(self.school)

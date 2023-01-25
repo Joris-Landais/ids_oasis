@@ -9,40 +9,40 @@ from datetime import datetime
 ip_server = "172.16.16.180"
 port = 3080
 
-#INITIALIZATION
+#INITIALISATION
 
-# Empty school
+# Création d'une School vide
 global school
 school = School()
 
-# REFRESHING AND SENDING
-# Only the first room/client will handle the scrapping of Oasis and the send to all other rooms/clients, periodicaly, with a period of refresh_time minutes.
+# Seulement la première salle/le premier client à se connecter gère le scrap de Oasis et envoie à tous les autres clients les infos, périodiquement, avec une période de rafraichissement de refresh_time minutes.
 refresh_time = 15 #min
-first_client = True #to identify the first client that will have to refresh and send
+first_client = True #pour identifier le premier client, celui qui gère les communications Oasis
 
 class RoomSocketHandler(WebSocketHandler):
     def open(self):
         global first_client
         self.first_msg = True
-        self.room_id = None #waiting for the room to send its id
-        self.callback_stop = False #only the dirst client to connect will have to end the callback
+        self.room_id = None #en attendant que la salle envoie son id
+        self.callback_stop = False #seul le premier client à se connecter devra stopper la call_back
         if first_client:
-            # The first client handles refreshing and sending, periodically
+            # Le premier client gère le rafraichissement et l'envoi, périodiquement
             first_client = False
             self.callback = PeriodicCallback(self.send_updates, refresh_time * 60000)
             self.callback.start()
             self.callback_stop = True
     
     def send_updates(self):
-        """Sending Oasis updates to the client, every refresh_time minutes.
+        """Envoi des données Oasis.
         """
         school.update()
         for room in school.rooms.values():
-            room.send_reservations()
+            if room[1]: #booléen qui teste si la connection est toujours active, si la salle ne s'est pas déconnectée
+                room[0].send_reservations()
     
     def on_message(self, message):
         if self.first_msg:
-            # Handle new connection
+            # Gère la nouvelle connection
             self.room_id = message
             self.first_msg = False
             school.new_room(self.room_id, self)
@@ -61,6 +61,7 @@ class RoomSocketHandler(WebSocketHandler):
     def on_close(self):
         if self.callback_stop:
             self.callback.stop() #TODO : problème, si le premier client se déconnecte dans la journée, beug de tous les autres, plus mis à jour
+        school.rooms[self.room_id] = [school.rooms[self.room_id][0], False] # La connection n'est plus active
 
 
 if __name__ == '__main__':
