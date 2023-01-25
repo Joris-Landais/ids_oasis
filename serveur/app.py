@@ -4,6 +4,7 @@ from tornado.websocket import WebSocketHandler
 from tornado.web import Application
 from tornado.ioloop import IOLoop, PeriodicCallback
 import json
+from datetime import datetime
 
 ip_server = "172.16.16.180"
 port = 3080
@@ -47,7 +48,7 @@ class RoomSocketHandler(WebSocketHandler):
             school.new_room(self.room_id, self)
         else:
             request_type = message["requête"]
-            now = ... # TODO
+            now = datetime.now()
 
             if request_type == "prise de salle":
                 duration = message["durée"]

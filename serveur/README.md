@@ -47,3 +47,10 @@ Le [📁 `room_priorities`](backend/room_priorities) comporte 2 fichiers 🐍 `p
 - Temps de rafraichissement des données (`refresh_time`dans [🐍 `app.py`](app.py))
 - Maintenir à jour l'url d'Oasis (dans [🐍 `scrap_oasis.py`](backend/scrap_oasis.py))
 - Maintenir à jour l'inventaire des salles (dans [🐍 `roomDict.py`](backend/room_priorities/roomDict.py.py))
+
+# Format des dates
+
+Les dates sont gérées par le module `datetime` de la façon suivante :
+- Les durées sont exprimées en minutes, type `int` puis converties en `datetime.timedelta`.
+- Les périodes de réseravtion sont données sous la form d'un `dict` ayant pour clefs `from_` l'heure de début, `to` l'heure de fin et `title` le motif de la réservation. Ces heures sont des `str` au format : `'hh:mm'`(ex : `'08:14'`). C'est le format après scrapping par Oasis, et le format d'échange de dates avec NodeRed (les clients).
+- Les périodes d'occupation sont des tableaux de taille 2 de type `list[datetime.datetime, datetime.datetime]` avec les heures de début et de fin.
